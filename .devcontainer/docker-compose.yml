@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Elixir version
+        VARIANT: "1.16.2"
+        # Phoenix version
+        PHOENIX_VERSION: "1.7.12"
+    volumes:
+      - ..:/workspace:cached
+    # Runs the application on the same network as the database container and allows "forwardPorts" in devcontainer.json to work
+    network_mode: service:db
+    # Overrides the default command so the application does not shut down after the process ends
+    command: sleep infinity
+
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
+
+volumes:
+  postgres-data:

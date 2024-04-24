@@ -26,6 +26,6 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 file_upload-*.tar
 
-# Additional files
+# Additional files and folders
 /config/*.secret.exs
 .elixir_ls/
